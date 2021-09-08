@@ -1,0 +1,171 @@
+<style>
+    .menuBurger{
+        display: none;
+    }
+    .popOff{
+        z-index: -1;
+        display: none;
+    }
+    .popOn{
+        z-index: 10;
+        display: block;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 128, .5);;
+        position:absolute;
+        left:0px; 
+        top:0px;
+    }
+    .popTxt{
+        background-color: blanchedalmond;
+        text-align: center;
+        margin-left: 40%;
+        width: 20%;
+    }
+</style>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>générateur de mot de passe</title>
+  </head>
+  <body>
+    <h2>ex1</h2>
+    <button onclick="generer();">générer</button>
+    <p id="mdp"></p>
+    <h2>ex1</h2>
+    <h2>ex2</h2>
+    <input onchange="convertC(this.value)" id="convertC" type="text"></input> °C
+    <input onchange="convertF(this.value)" id="convertF" type="text"></input> °F
+    <h2>ex2</h2>
+    <h2>ex3</h2>
+    <button onclick="citation()">citations</button>
+    <div id='pop-up' class='popOff' onclick="closePop()">
+        <p id='popTxt' class='popTxt'></p>
+    </div>
+    <h2>ex3</h2>
+    <h2>ex4</h2>
+    <button onclick="dark()">dark mode</button>
+    <h2>ex4</h2>
+    <h2>ex5</h2>
+    <button onclick="menu()">menu burger</button>
+    <div id="burger" class="menuBurger" >
+        <div>sous menu 1</div>
+        <div>sous menu 2</div>
+        <div>sous menu 3</div>
+        <div>sous menu 4</div>
+    </div>
+    <h2>ex5</h2>
+  </body>
+</html>
+
+<script>
+    //générateur de mot de passe
+
+    function generer(){
+        var nbalphabet = 3; 
+        var nbalphabetMaj = 3; 
+        var nbnumber = 2; 
+        var nbalphabetSpe = 2; 
+        var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+        var number = ['1','2','3','4','5','6','7','8','9']
+        var alphabetMaj = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+        var alphabetSpe = ['!','*',':',';','/','.','?','ù','^']
+        var result = "";
+        
+        result = [choice(nbalphabet,alphabet),choice(nbalphabetMaj,alphabetMaj),choice(nbnumber,number),choice(nbalphabetSpe,alphabetSpe)];
+        result = result.sort((a, b) => 0.5 - Math.random());
+        document.getElementById("mdp").innerHTML = result;
+    }
+
+    function choice(nb,table){
+        var mdp = "";
+        for(var i = 0 ; i<nb ; i++){
+            mdp += table[Math.floor(Math.random() * table.length)];
+        }
+        return mdp;
+    }
+
+
+    //convertisseur degré Fahrenheit
+
+    function convertC(val){
+        if(val == ""){
+            val = 0;
+        }else{
+            val = (val * 9/5) +32;
+        }
+        
+        document.getElementById("convertF").value = val.toString();
+    }
+
+    function convertF(val){
+        if(val == ""){
+            val = 0;
+        }else{
+            val = (val - 32)*5/9;
+        }
+        
+        document.getElementById("convertC").value = val.toString();
+    }
+
+    //pop - up
+    var popOn = 0;
+    function citation() {
+        var mot = ['belle','est','la','vie'];
+        mot = mot.sort((a, b) => 0.5 - Math.random());
+        var val =  mot[0] + " "+mot[1] + " "+mot[2] + " "+mot[3];
+        var div = document.getElementById("pop-up");
+        document.getElementById("popTxt").innerHTML =val;
+
+        if(popOn == 0){
+            darkModOn = 1;
+            div.classList.remove('popOff');
+            div.classList.add('popOn');
+
+        }else if(popOn == 1){
+            darkModOn = 0;
+            div.classList.add('popOff');
+            div.classList.remove('popOn');
+        }
+        
+    }
+
+    function closePop(){
+        document.getElementById("pop-up").classList.add('popOff');
+        document.getElementById("pop-up").classList.remove('popOn');
+    }
+
+    //dark mod
+
+    darkModOn = 0;
+    function dark() {
+
+        if(darkModOn == 0){
+            darkModOn = 1;
+            document.body.style.backgroundColor = "#121212";
+            document.body.style.color = "#EDEDED";
+
+        }else if(darkModOn == 1){
+            darkModOn = 0;
+            document.body.style.backgroundColor = "white";
+            document.body.style.color = "black"
+        }
+    }
+
+    //menu burger
+
+    var menuOpen = 0;
+    function menu() {
+        console.log(menuOpen);
+        if(menuOpen == 0){
+            menuOpen = 1;
+            document.getElementById("burger").classList.remove('menuBurger');
+
+        }else if(menuOpen == 1){
+            menuOpen = 0;
+            document.getElementById("burger").classList.add('menuBurger');
+        }
+    }
+
+
+</script>
